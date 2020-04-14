@@ -30,9 +30,6 @@ jobs:
       run: | 
         git config --global user.name 'bbaa' 
         git config --global user.email 'bbaa_bbaa@qq.com'  
-    - name: Setup Dependencies
-      run: |
-        yarn install
     - name: Generate public files
       run: |
         yarn build
