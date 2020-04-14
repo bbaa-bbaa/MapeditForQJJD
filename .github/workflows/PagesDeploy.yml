@@ -37,5 +37,8 @@ jobs:
       env:
         Github_Pages: github.com/bbaa-bbaa/MapeditForSSSS.git
         Github_Token: ${{ secrets.token_GithubAPI }}
-      run: |  
-        npx gh-pages -d dist -m "Auto deploy" -r "https://${Github_Token}@${Github_Pages}" -f
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        ACCESS_TOKEN: ${Github_Token}
+        BRANCH: gh-pages
+        FOLDER: dist
