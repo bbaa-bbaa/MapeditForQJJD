@@ -38,4 +38,4 @@ jobs:
         Github_Pages: github.com/bbaa-bbaa/MapeditForSSSS.git
         Github_Token: ${{ secrets.token_GithubAPI }}
       run: |  
-        yarn exec gh-pages -d dist -m "Auto deploy" -r "https://${Github_Token}@${Github_Pages}" -f
+        npx gh-pages -d dist -m "Auto deploy" -r "https://${Github_Token}@${Github_Pages}" -f
