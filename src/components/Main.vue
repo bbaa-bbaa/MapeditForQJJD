@@ -441,6 +441,9 @@ export default {
           }.bind(this);
         }
       }
+    },
+    BFS(){
+      
     }
   }
 };
