@@ -1,10 +1,10 @@
 import Vue from "vue";
 var MapEditer = {
   MapEditer: {
-    BlockObj: function (a) {
+    BlockObj: function(a) {
       this.blockid = a;
     },
-    init: function () {
+    init: function() {
       for (let i = 0; i < 11; i++) {
         let a = new Array();
         for (let j = 0; j < 15; j++) {
@@ -13,11 +13,13 @@ var MapEditer = {
         }
         this.data.push(a);
       }
+      MapEditer.Y = this.data.length;
+      MapEditer.X = this.data[0].length;
       this.ToCsv();
     },
-    initimage: function (i) {
+    initimage: function(i) {
       let a = new Array();
-      let f = function () {
+      let f = function() {
         this.initimage(i + 15);
       };
       for (var l = 0; l < 15; l++) {
@@ -28,7 +30,7 @@ var MapEditer = {
       img.src = "./images/blocks/" + (i + 15) + ".png";
       img.onload = f.bind(this);
     },
-    ToCsv: function (r) {
+    ToCsv: function(r) {
       let data = "";
       for (let i = 0, yitem; (yitem = this.data[i]); i++) {
         for (let j = 0, xitem; (xitem = yitem[j]); j++) {
@@ -44,7 +46,7 @@ var MapEditer = {
       MapEditer.PlayerEditer.ShowEditer = false;
       return false;
     },
-    LoadMap: function (MapStr) {
+    LoadMap: function(MapStr) {
       if (MapStr != undefined) {
         MapStr = MapStr.replace(/[\t ]*/g, "")
           .replace(/(\n)+/g, "\n")
@@ -84,7 +86,7 @@ var MapEditer = {
       }
       this.ToCsv(MapStr != undefined);
     },
-    ReSizeMap: function (a) {
+    ReSizeMap: function(a) {
       switch (a) {
         case "top":
           var a = new Array();
@@ -99,6 +101,8 @@ var MapEditer = {
             a.push(o);
           }
           MapEditer.PlayerEditer.data.unshift(a);
+          MapEditer.Y = this.data.length;
+          MapEditer.X = this.data[0].length;
           break;
         case "bottom":
           var a = new Array();
@@ -113,6 +117,8 @@ var MapEditer = {
             a.push(o);
           }
           MapEditer.PlayerEditer.data.push(a);
+          MapEditer.Y = this.data.length;
+          MapEditer.X = this.data[0].length;
           break;
         case "left":
           for (let i = 0; i < this.data.length; i++) {
@@ -121,6 +127,8 @@ var MapEditer = {
               new MapEditer.PlayerEditer.PlayerObj()
             );
           }
+          MapEditer.Y = this.data.length;
+          MapEditer.X = this.data[0].length;
           break;
         case "right":
           for (let i = 0; i < this.data.length; i++) {
@@ -129,6 +137,8 @@ var MapEditer = {
               new MapEditer.PlayerEditer.PlayerObj()
             );
           }
+          MapEditer.Y = this.data.length;
+          MapEditer.X = this.data[0].length;
           break;
       }
       if (!this.IsPlayerEdit) {
@@ -146,7 +156,7 @@ var MapEditer = {
     Select: 0,
   },
   PlayerEditer: {
-    init: function () {
+    init: function() {
       for (let i = 0; i < 8; i++) {
         this.PlayerInfo.push(null);
       }
@@ -158,20 +168,20 @@ var MapEditer = {
         this.data.push(a);
       }
     },
-    AddPlayer: function () {
+    AddPlayer: function() {
       for (let [i, item] of this.PlayerInfo.entries()) {
         Vue.set(this.data[this.Y][this.X].Info, i, item);
       }
     },
-    PlayerObj: function () {
+    PlayerObj: function() {
       this.Info = [];
     },
-    bjqd: function (Type) {
+    bjqd: function(Type) {
       var Img = new Image();
       Img.crossOrigin = "*";
       Img.src = "./images/players/" + Type + ".png";
       var that = this;
-      Img.onload = function () {
+      Img.onload = function() {
         /*var canvas=document.createElement("canvas");
 				canvas.width=64;
 				canvas.height=64;
@@ -186,14 +196,10 @@ var MapEditer = {
 					}
 				}
 				ctx.putImageData(ImageData,0,0);*/
-        Vue.set(
-          that.imagedata,
-          Type,
-          "./images/players/" + Type + ".png"
-        );
+        Vue.set(that.imagedata, Type, "./images/players/" + Type + ".png");
       };
     },
-    ToSave: function (r) {
+    ToSave: function(r) {
       var Data =
         "#文件格式：x,y,名称,血量,类型,阵营,攻击距离,移动距离,伤害,防御\r\n";
       for (var i = 0, item; (item = this.data[i]); i++) {
@@ -215,17 +221,18 @@ var MapEditer = {
       MapEditer.SaveFile = Data;
       return true;
     },
-    LoadSave: function (Data) {
+    LoadSave: function(Data) {
       if (Data == undefined) {
         var Data = MapEditer.SaveFile;
       }
       Data = Data.replace(/#[^\n]*\n/g, "")
-        .replace(/\n#[^\n]*/g, "")
+        .replace(/^#[^\n]*$/g, "")
         .replace(/(\n)+/g, "\n")
         .replace(/\n$/g, "")
         .replace(/\r/g, "");
       Data = Data.split(/\n/);
       this.data = [];
+      //console.log(Data)
       this.init();
       for (var i = 0, item; (item = Data[i]); i++) {
         var Data2 = Data[i].split(",");
@@ -257,11 +264,11 @@ var MapEditer = {
       left: "0px",
     },
   },
-  init: function () {
-    this.MapEditer.BlockObj.prototype.url = function () {
+  init: function() {
+    this.MapEditer.BlockObj.prototype.url = function() {
       return "./images/blocks/" + this.blockid + ".png";
     };
-    this.PlayerEditer.PlayerObj.prototype.url = function () {
+    this.PlayerEditer.PlayerObj.prototype.url = function() {
       if (MapEditer.PlayerEditer.imagedata[this.Info[2]] == undefined) {
         MapEditer.PlayerEditer.bjqd(this.Info[2]);
         return "./images/loading.gif";
@@ -272,9 +279,12 @@ var MapEditer = {
     this.MapEditer.init();
     this.PlayerEditer.init();
   },
-  Offset: function (dom) {
-    let BoundingClientRect=dom.getBoundingClientRect()
-    let offset = { left: BoundingClientRect.left + document.documentElement.scrollLeft, top: BoundingClientRect.top + document.documentElement.scrollTop };
+  Offset: function(dom) {
+    let BoundingClientRect = dom.getBoundingClientRect();
+    let offset = {
+      left: BoundingClientRect.left + document.documentElement.scrollLeft,
+      top: BoundingClientRect.top + document.documentElement.scrollTop,
+    };
     return offset;
   },
   IsPlayerEdit: false,
