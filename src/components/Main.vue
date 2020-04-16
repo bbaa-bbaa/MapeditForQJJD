@@ -4,6 +4,7 @@
       <div
         id="SelectBlock"
         v-if="!Main.MapEditer.IsPlayerEdit"
+        v-show="ShowSelectBlock"
         style="left: 180px;"
       >
         <div id="Select" :style="Main.MapEditer.SelectStyle">
@@ -218,6 +219,15 @@
           class="btn btn-primary"
           type="button"
           style="width: 48.5%; margin-top: 4px;"
+          @click="ShowSelectBlock=!ShowSelectBlock"
+          v-if="!Main.MapEditer.IsPlayerEdit"
+        >
+          {{ShowSelectBlock ? "隐藏" : "显示"}}方块选择框
+        </button>
+        <button
+          class="btn btn-primary"
+          type="button"
+          style="width: 48.5%; margin-top: 4px;"
           @click="genImage"
         >
           下载地图图片
@@ -253,12 +263,13 @@ export default {
     return {
       Main: MapEditer,
       Selects: [],
-      Selected: null
+      Selected: null,
+      ShowSelectBlock:true
     };
   },
   computed: {
     HeightToTop() {
-      return this.Main.MapEditer.imagedata.length * 66 + 20 + "px";
+      return (ShowSelectBlock ? this.Main.MapEditer.imagedata.length * 66 : 0) + 20 + "px";
     }
   },
   mounted() {
