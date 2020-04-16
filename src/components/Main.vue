@@ -301,7 +301,7 @@ export default {
       this.Main.MapEditer.SelectStyle.top = e.target.offsetTop + "px";
       if (e.ctrlKey) {
         for (let y=0;y<this.Main.MapEditer.data.length;y++) {
-          for (let x=0;x<this.Main.MapEditer.data.length;x++) {
+          for (let x=0;x<this.Main.MapEditer.data[0].length;x++) {
             this.Main.MapEditer.data[y][x].blockid = this.Main.MapEditer.Select;
           }
         }
