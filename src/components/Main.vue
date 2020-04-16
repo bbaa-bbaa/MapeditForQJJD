@@ -224,6 +224,7 @@
         >
           {{ShowSelectBlock ? "隐藏" : "显示"}}方块选择框
         </button>
+        <br />
         <button
           class="btn btn-primary"
           type="button"
@@ -269,7 +270,7 @@ export default {
   },
   computed: {
     HeightToTop() {
-      return (ShowSelectBlock ? this.Main.MapEditer.imagedata.length * 66 : 0) + 20 + "px";
+      return (this.ShowSelectBlock ? this.Main.MapEditer.imagedata.length * 66 : 0) + 20 + "px";
     }
   },
   mounted() {
