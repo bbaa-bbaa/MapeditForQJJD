@@ -1,0 +1,33 @@
+[{
+    "type": "dfsb",
+    "name": "敌方士兵"
+  },
+  {
+    "type": "wfsb",
+    "name": "我方士兵"
+  },
+  {
+    "type": "dftk",
+    "name": "敌方坦克"
+  },
+  {
+    "type": "wftk",
+    "name": "我方坦克"
+  },
+  {
+    "type": "dfhp",
+    "name": "敌方火炮"
+  },
+  {
+    "type": "wfhp",
+    "name": "我方火炮"
+  },
+  {
+    "type": "dftower",
+    "name": "敌方我也不知道是啥塔"
+  },
+  {
+    "type": "zombie",
+    "name": "僵尸"
+  }
+]
