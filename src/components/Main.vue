@@ -95,7 +95,7 @@
           v-model="Main.PlayerEditer.PlayerInfo[0]"
           style="margin-top:15px"
         ></v-text-field>
-        <v-text-field label="血量" dense v-model.number="Main.PlayerEditer.PlayerInfo[1]"></v-text-field>
+        <v-text-field :rules="[isNum]" label="血量" dense v-model.number="Main.PlayerEditer.PlayerInfo[1]"></v-text-field>
         <v-select
           dense
           label="类型"
@@ -116,10 +116,10 @@
           v-model="Main.PlayerEditer.PlayerInfo[3]"
         >
         </v-select>
-        <v-text-field label="攻击距离" dense v-model.number="Main.PlayerEditer.PlayerInfo[4]"></v-text-field>
-        <v-text-field label="可移动步数" dense v-model.number="Main.PlayerEditer.PlayerInfo[5]"></v-text-field>
-        <v-text-field label="伤害" dense v-model.number="Main.PlayerEditer.PlayerInfo[6]"></v-text-field>
-        <v-text-field label="防御" dense v-model.number="Main.PlayerEditer.PlayerInfo[7]"></v-text-field>
+        <v-text-field :rules="[isNum]" label="攻击距离" dense v-model.number="Main.PlayerEditer.PlayerInfo[4]"></v-text-field>
+        <v-text-field :rules="[isNum]" label="可移动步数" dense v-model.number="Main.PlayerEditer.PlayerInfo[5]"></v-text-field>
+        <v-text-field :rules="[isNum]" label="伤害" dense v-model.number="Main.PlayerEditer.PlayerInfo[6]"></v-text-field>
+        <v-text-field :rules="[isNum]" label="防御" dense v-model.number="Main.PlayerEditer.PlayerInfo[7]"></v-text-field>
         <v-row>
           <v-col cols="6">
             <v-btn
@@ -366,6 +366,9 @@
           if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
         }
         return "";
+      },
+      isNum(v) {
+        return /^\d+$/.test(v) ? true : "请输入数字"
       },
       genImage() {
         let canvas = document.createElement("canvas");
