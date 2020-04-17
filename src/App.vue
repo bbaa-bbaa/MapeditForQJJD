@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :style="{background: background}">
     <Mapediter />
   </v-app>
 </template>
@@ -11,6 +11,11 @@
     name: "App",
     components: {
       Mapediter
+    },
+    computed:{
+      background(){
+        return this.$vuetify.theme.currentTheme.background ? this.$vuetify.theme.currentTheme.background : "#ffffff";
+      }
     }
   };
 </script>
