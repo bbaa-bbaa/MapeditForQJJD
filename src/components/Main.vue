@@ -272,7 +272,6 @@
         this.Main.MapEditer.ToCsv();
       },
       initSelect() {
-        return;
         this.Main.MapEditer.SelectStyle.left =
           document
             .querySelector("#SelectBlock > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > img")
