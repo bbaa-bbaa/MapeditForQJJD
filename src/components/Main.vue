@@ -411,11 +411,11 @@ export default {
     PlayerEdit(x, y, el) {
       this.Main.PlayerEditer.LoadSave();
       if (
-        Main.PlayerEditer.ShowEditer &&
+        this.Main.PlayerEditer.ShowEditer &&
         y == this.Main.PlayerEditer.Y &&
         x == this.Main.PlayerEditer.X
       ) {
-        Main.PlayerEditer.ShowEditer = false;
+        this.Main.PlayerEditer.ShowEditer = false;
       }
       if (!el.ctrlKey) {
         this.Main.PlayerEditer.PlayerInfo = new Array();
