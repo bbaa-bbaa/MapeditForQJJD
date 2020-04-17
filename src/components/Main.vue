@@ -416,6 +416,7 @@ export default {
         x == this.Main.PlayerEditer.X
       ) {
         this.Main.PlayerEditer.ShowEditer = false;
+        return;
       }
       if (!el.ctrlKey) {
         this.Main.PlayerEditer.PlayerInfo = new Array();
