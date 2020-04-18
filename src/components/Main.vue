@@ -117,8 +117,7 @@
         </v-card>
       </v-dialog>
     </div>
-    <div class="HideScroll">
-      <div id="MainEditer" :class="{ PhoneScroll: !IsPC }">
+      <div class="MainScroll" :class="{ PhoneScroll: !IsPC }">
         <div id="MapEditer" style="width:100%" :style="{ 'margin-top': HeightToTop }">
           <v-row no-gutters v-for="(item, y) of Main.MapEditer.data" :key="'y' + y" justify="center">
             <v-col
@@ -131,7 +130,8 @@
                 draggable="false"
                 :src="item2.url()"
                 onerror="this.src='./images/error.png'"
-                @load="initPlayerEditer"
+                @load="initPlayerEditer();"
+                style="width:64px;height:64px;"
               />
             </v-col>
           </v-row>
@@ -150,21 +150,24 @@
               :key="x"
             >
               <img
+                width="64"
+                height="64"
                 draggable="false"
                 :src="item2.url()"
                 onerror="this.src='./images/error.png'"
                 v-if="typeof item2.Info[2] != 'undefined'"
+                style="width:64px;height:64px;"
               />
             </v-col>
           </v-row>
         </div>
       </div>
-    </div>
     <v-container>
       <div id="PlayerInfoEdit" :style="Main.PlayerEditer.EditerStyle" v-show="Main.PlayerEditer.ShowEditer && IsPC">
         <v-form :lazy-validation="true" ref="PlayerInfo">
           <v-text-field
             label="名称"
+            :rules="[notNull]"
             dense
             v-model="Main.PlayerEditer.PlayerInfo[0]"
             style="margin-top:15px"
@@ -178,6 +181,7 @@
           <v-select
             dense
             label="类型"
+            :rules="[notNull]"
             :items="entities"
             item-value="type"
             item-text="name"
@@ -188,6 +192,7 @@
           <v-select
             dense
             label="阵营"
+            :rules="[notNull]"
             :items="[
               { text: '我方', value: 'f' },
               { text: '敌方', value: 'e' }
@@ -249,6 +254,7 @@
             <v-form :lazy-validation="true" ref="PlayerInfo">
               <v-text-field
                 label="名称"
+                :rules="[notNull]"
                 v-model="Main.PlayerEditer.PlayerInfo[0]"
                 style="margin-top:15px"
               ></v-text-field>
@@ -259,6 +265,7 @@
               ></v-text-field>
               <v-select
                 label="类型"
+                :rules="[notNull]"
                 :items="entities"
                 item-value="type"
                 item-text="name"
@@ -268,6 +275,7 @@
               </v-select>
               <v-select
                 label="阵营"
+                :rules="[notNull]"
                 :items="[
                   { text: '我方', value: 'f' },
                   { text: '敌方', value: 'e' }
@@ -402,10 +410,11 @@
         Main: MapEditer,
         Selects: [],
         Selected: null,
-        EnableSelectBlock: true,
+        EnableSelectBlock: false,
         entities,
         blocks,
-        IsVaild: false
+        IsVaild: false,
+        MScroll:false
       };
     },
     computed: {
@@ -585,6 +594,9 @@
       isNum(v) {
         return /^\d+$/.test(v) ? true : "请输入数字";
       },
+      notNull(v) {
+        return !!v || "该项不能为空"
+      },
       genImage() {
         let canvas = document.createElement("canvas");
         canvas.width = this.Main.MapEditer.data[0].length * 64;
@@ -675,20 +687,14 @@
     min-width: 975px;
   }
   @media screen and (max-width: 975px) {
-    #MainEditer {
-    overflow: scroll hidden;
-    position: relative;
+    .MainScroll {
+      overflow-x: scroll!important;
+      position: relative;
    }
   }
+  
   #BlockList {
     max-width: 100vw;
-  }
-  .HideScroll {
-    overflow: hidden;
-  }
-  .PhoneScroll {
-    bottom: 0;
-    top: 0;
   }
   .PhoneScroll #MapEditer,
   .PhoneScroll #PlayerEditer {
