@@ -117,51 +117,51 @@
         </v-card>
       </v-dialog>
     </div>
-      <div class="MainScroll" :class="{ PhoneScroll: !IsPC }">
-        <div id="MapEditer" style="width:100%" :style="{ 'margin-top': HeightToTop }">
-          <v-row no-gutters v-for="(item, y) of Main.MapEditer.data" :key="'y' + y" justify="center">
-            <v-col
-              style="height:66px;max-width:66px;margin:0px 0px -1px -1px;border:1px solid #000;"
-              v-for="(item2, x) of item"
-              @click="ChangeBlock(x, y)"
-              :key="x"
-            >
-              <img
-                draggable="false"
-                :src="item2.url()"
-                onerror="this.src='./images/error.png'"
-                @load="initPlayerEditer();"
-                style="width:64px;height:64px;"
-              />
-            </v-col>
-          </v-row>
-        </div>
-        <div
-          id="PlayerEditer"
-          v-if="Main.MapEditer.IsPlayerEdit"
-          style="width:100%"
-          :style="Object.assign(Main.PlayerEditer.Style, { 'margin-top': HeightToTop })"
-        >
-          <v-row no-gutters v-for="(item, y) of Main.PlayerEditer.data" :key="'y' + y" justify="center">
-            <v-col
-              style="height:66px;min-width:66px;max-width:66px;margin:0px 0px -1px -1px;border:1px solid #000;"
-              v-for="(item2, x) of item"
-              @click.stop="PlayerEdit(x, y, $event)"
-              :key="x"
-            >
-              <img
-                width="64"
-                height="64"
-                draggable="false"
-                :src="item2.url()"
-                onerror="this.src='./images/error.png'"
-                v-if="typeof item2.Info[2] != 'undefined'"
-                style="width:64px;height:64px;"
-              />
-            </v-col>
-          </v-row>
-        </div>
+    <div class="MainScroll" :class="{ PhoneScroll: !IsPC }">
+      <div id="MapEditer" style="width:100%" :style="{ 'margin-top': HeightToTop }">
+        <v-row no-gutters v-for="(item, y) of Main.MapEditer.data" :key="'y' + y" justify="center">
+          <v-col
+            style="height:66px;max-width:66px;margin:0px 0px -1px -1px;border:1px solid #000;"
+            v-for="(item2, x) of item"
+            @click="ChangeBlock(x, y)"
+            :key="x"
+          >
+            <img
+              draggable="false"
+              :src="item2.url()"
+              onerror="this.src='./images/error.png'"
+              @load="initPlayerEditer()"
+              style="width:64px;height:64px;"
+            />
+          </v-col>
+        </v-row>
       </div>
+      <div
+        id="PlayerEditer"
+        v-if="Main.MapEditer.IsPlayerEdit"
+        style="width:100%"
+        :style="Object.assign(Main.PlayerEditer.Style, { 'margin-top': HeightToTop })"
+      >
+        <v-row no-gutters v-for="(item, y) of Main.PlayerEditer.data" :key="'y' + y" justify="center">
+          <v-col
+            style="height:66px;min-width:66px;max-width:66px;margin:0px 0px -1px -1px;border:1px solid #000;"
+            v-for="(item2, x) of item"
+            @click.stop="PlayerEdit(x, y, $event)"
+            :key="x"
+          >
+            <img
+              width="64"
+              height="64"
+              draggable="false"
+              :src="item2.url()"
+              onerror="this.src='./images/error.png'"
+              v-if="typeof item2.Info[2] != 'undefined'"
+              style="width:64px;height:64px;"
+            />
+          </v-col>
+        </v-row>
+      </div>
+    </div>
     <v-container>
       <div id="PlayerInfoEdit" :style="Main.PlayerEditer.EditerStyle" v-show="Main.PlayerEditer.ShowEditer && IsPC">
         <v-form :lazy-validation="true" ref="PlayerInfo">
@@ -369,6 +369,13 @@
             </v-btn>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col>
+            <v-btn color="primary" :block="true" @click="replaceAllBlock">
+              替换全部方块为{{ blocks[Main.MapEditer.Select] ? blocks[Main.MapEditer.Select].name : "当前选择的方块" }}
+            </v-btn>
+          </v-col>
+        </v-row>
         <v-row v-if="!Main.MapEditer.IsPlayerEdit">
           <v-col>
             <v-btn color="primary" :block="true" @click="EnableSelectBlock = !EnableSelectBlock">
@@ -414,7 +421,7 @@
         entities,
         blocks,
         IsVaild: false,
-        MScroll:false
+        MScroll: false
       };
     },
     computed: {
@@ -477,6 +484,13 @@
             for (let x = 0; x < this.Main.MapEditer.data[0].length; x++) {
               this.Main.MapEditer.data[y][x].blockid = this.Main.MapEditer.Select;
             }
+          }
+        }
+      },
+      replaceAllBlock() {
+        for (let y = 0; y < this.Main.MapEditer.data.length; y++) {
+          for (let x = 0; x < this.Main.MapEditer.data[0].length; x++) {
+            this.Main.MapEditer.data[y][x].blockid = this.Main.MapEditer.Select;
           }
         }
       },
@@ -595,7 +609,7 @@
         return /^\d+$/.test(v) ? true : "请输入数字";
       },
       notNull(v) {
-        return !!v || "该项不能为空"
+        return !!v || "该项不能为空";
       },
       genImage() {
         let canvas = document.createElement("canvas");
@@ -688,11 +702,11 @@
   }
   @media screen and (max-width: 975px) {
     .MainScroll {
-      overflow-x: scroll!important;
+      overflow-x: scroll !important;
       position: relative;
-   }
+    }
   }
-  
+
   #BlockList {
     max-width: 100vw;
   }
