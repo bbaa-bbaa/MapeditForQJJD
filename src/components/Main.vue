@@ -108,7 +108,7 @@
             </div>
             <v-row>
               <v-col cols="12">
-                <v-btn color="success" dense @click="EnableSelectBlock = flase" :block="true">
+                <v-btn color="success" dense @click="EnableSelectBlock = false" :block="true">
                   确定
                 </v-btn>
               </v-col>
