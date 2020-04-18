@@ -242,7 +242,6 @@ var MapEditer = {
           for (let item of Data2.slice(2)) {
             this.data[Y][X].Info.push(item);
           }
-          console.log(this.data[Y][X].Info);
         }
       }
       this.ShowEditer = false;
